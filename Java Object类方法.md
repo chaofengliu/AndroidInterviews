@@ -1,4 +1,4 @@
-#Java Object类方法#1、Java基础
+#Java Object类方法
 
 ## 1、Object终极父类
 Object类位于java.lang包中，java.lang包包含着Java最基础和核心的类，在编译时会自动导入；
