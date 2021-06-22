@@ -1,4 +1,4 @@
-#Java Object类方法
+# Java Object类方法
 
 ## 1、Object终极父类
 Object类位于java.lang包中，java.lang包包含着Java最基础和核心的类，在编译时会自动导入；
@@ -145,7 +145,9 @@ System.out.println(p1);
 com.pansoft.zhangjg.testclone.Person@2f9ee1ac
 com.pansoft.zhangjg.testclone.Person@2f9ee1ac
 
-打印的地址值是相同的，既然地址都是相同的，那么肯定是同一个对象。p和p1只是引用而已，他们都指向了一个相同的对象Person(23, "zhang") 。 可以把这种现象叫做引用的复制。
+打印的地址值是相同的，既然地址都是相同的，那么肯定是同一个对象。
+p和p1只是引用而已，他们都指向了一个相同的对象Person(23, "zhang") 。 
+可以把这种现象叫做引用的复制。
 
 Person p = new Person(23, "zhang"); 
 Person p1 = (Person) p.clone(); 
@@ -172,14 +174,14 @@ System.out.println(result);
 ## 6、notify方法和wait方法
 wait()，notify() 和 notifyAll() 可以让线程协调完成一项任务。
 
-###不同的 wait() 方法之间有什么区别
+### 不同的 wait() 方法之间有什么区别
 
 没有参数的 wait() 方法被调用之后，线程就会一直处于睡眠状态，直到本对象（就是 wait() 被调用的那个对象）调用 notify() 或 notifyAll() 方法。相应的wait(long timeout)和wait(long timeout, int nanos)方法中，当等待时间结束或者被唤醒时（无论哪一个先发生）将会结束等待。
 
-####notify() 和 notifyAll() 方法有什么区别
+#### notify() 和 notifyAll() 方法有什么区别
 notify() 方法随机唤醒一个等待的线程，而 notifyAll() 方法将唤醒所有在等待的线程。
 
-####线程被唤醒之后会发生什么
+#### 线程被唤醒之后会发生什么
 当一个线程被唤醒之后，除非本对象（调用 notify() 或 notifyAll() 的对象）的同步锁被释放，否则不会立即执行。唤醒的线程会按照规则和其他线程竞争同步锁，得到锁的线程将执行。所以notifyAll()方法执行之后，可能会有一个线程立即运行，也可能所有的线程都没运行。
 
 ## 7、toString()方法
