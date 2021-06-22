@@ -1,10 +1,11 @@
 #Java Object类方法#1、Java基础
 
-##1、Object终极父类
+## 1、Object终极父类
 Object类位于java.lang包中，java.lang包包含着Java最基础和核心的类，在编译时会自动导入；
 
 Object类是所有Java类的祖先。每个类都使用Object作为超类。所有对象(包括数组)都实现这个类的方法。可以使用类型为Object的变量指向任意类型的对象
-##2、Object的主要方法
+
+## 2、Object的主要方法
 ```
 package java.lang;
 
