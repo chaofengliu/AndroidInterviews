@@ -1,49 +1,52 @@
 # Android面试复习指南
-# 1、Java基础
+## 一、Android
+1. [Activity](https://github.com/chaofengliu/AndroidInterviews/blob/main/Activity.md)
+2. [Service](https://github.com/chaofengliu/AndroidInterviews/blob/main/Service.md)
+3. [BroadcastReceiver](https://github.com/chaofengliu/AndroidInterviews/blob/main/BroadcastReceiver.md)
+4. [ContentProvider](https://github.com/chaofengliu/AndroidInterviews/blob/main/ContentProvider.md)
+5. [Handler](https://github.com/chaofengliu/AndroidInterviews/blob/main/Handler.md)
+6. View绘制
+7. View事件分发
+8. RecycleView
+9. Viewpager&Fragment
+10. WebView
+11. 动画
+12. Bitmap
+13. mvc&mvp&mvvm
+14. Binder
+15. 内存泄漏&内存溢出
+16. 性能优化
+17. Window&WindowManager
+18. WMS
+19. AMS
+20. 系统启动
+21. App启动&打包&安装
+22. 序列化
+23. Art & Dalvik 及其区别
+24. 模块化&组件化
+25. 热修复&插件化
+26. AOP
+27. jectpack
+28. 开源框架
 
-## [Java Object类方法](https://github.com/chaofengliu/AndroidInterviews/blob/main/Java%20Object%E7%B1%BB%E6%96%B9%E6%B3%95.md)
-## [Java equals和==的区别](https://github.com/chaofengliu/AndroidInterviews/blob/main/Java%20equals%E5%92%8C%3D%3D%E7%9A%84%E5%8C%BA%E5%88%AB.md)
+## 二、Java
 
-## HashMap原理，Hash冲突，并发集合，线程安全集合及实现原理
-## HashMap 和 HashTable 区别
-## HashCode 作用，如何重载hashCode方法
-## ArrayList与LinkList区别与联系
-## GC机制
-## Java反射机制，Java代理模式
-## Java泛型
-## Synchronized原理
-## Volatile实现原理
-## 方法锁、对象锁、类锁的意义和区别
-## 线程同步的方法：Synchronized、lock、reentrantLock分析
-## Java锁的种类: 公平锁、乐观锁、互斥锁、分段锁、偏向锁、自旋锁等
-## ThreadLocal的原理和用法
-## ThreadPool的用法和示例
-## wait()和sleep()的区别
+1. HashMap
+2. ArrayList
+3. Jvm
+4. 多线程
+5. 注解
+6. 反射
+7. 泛型
+8. 设计模式
 
+## 三、计算机网络
 
-# 2、Java高阶
+## 四、数据结构与算法
 
-# 3、Android基础
+## 五、Kotlin
 
-# 4、Android高级
-
-# 5、Android Framework
-
-# 6、开源框架原理
-
-# 7、数据结构与算法
+## 六、Flutter
 
 
-# 8、Hybrid与Webview
 
-# 9、Gradle、自动化构建和持续集成
-
-# 10、Android性能优化
-
-# 10、Android架构和设计模式
-
-# 11、Kotlin与Flutter
-
-# 12、微信小程序
-
-# 13、网络HTTP协议
