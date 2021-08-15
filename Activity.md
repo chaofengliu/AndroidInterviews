@@ -55,7 +55,7 @@ BActivity:onCreate()->onStart()->onResume()
 
 onSaveInstanceState函数在Activity生命周期中执行。
 
-###outState参数作用:
+### outState参数作用:
 数据保存，Activity声明周期结束的时候, 需要保存 Activity 状态的时候, 会将要保存的数据使用键值对的形式 保存在 Bundle 对象中;
 
 
@@ -185,13 +185,13 @@ Dialog不会调用onPause()和onStop()， 非全屏Activity会调用onPause()不
 ```
 
 ## 13. Activity的onNewIntent()方法什么时候会执行
-###1).standard  
+### 1).standard  
 默认启动模式，每次激活Activity时都会创建Activity，并放入任务栈中，永远不会调用onNewIntent()。  
-###2).singleTop  
+### 2).singleTop  
 如果在任务的栈顶正好存在该Activity的实例， 就重用该实例，并调用其onNewIntent()，否者就会创建新的实例并放入栈顶(即使栈中已经存在该Activity实例，只要不在栈顶，都会创建实例，而不会调用onNewIntent()，此时就跟standard模式一样)。  
-###3).singleTask  
+### 3).singleTask  
 如果在栈中已经有该Activity的实例，就重用该实例(会调用实例的onNewIntent())。重用时，会让该实例回到栈顶，因此在它上面的实例将会被移除栈。如果栈中不存在该实例，将会创建新的实例放入栈中（此时不会调用onNewIntent()）。   
-###4).singleInstance  
+### 4).singleInstance  
 在一个新栈中创建该Activity实例，并让多个应用共享改栈中的该Activity实例。一旦改模式的Activity的实例存在于某个栈中，任何应用再激活改Activity时都会重用该栈中的实例，其效果相当于多个应用程序共享一个应用，不管谁激活该Activity都会进入同一个应用中。
 
 ![总结](https://github.com/chaofengliu/AndroidInterviews/blob/main/img/BA832041-DB2D-415F-B368-9B3E9AC1D318.png "汇总")
@@ -202,7 +202,7 @@ Dialog不会调用onPause()和onStop()， 非全屏Activity会调用onPause()不
 ## 14. 显示启动和隐式启动
  启动Activity主要是通过Intent（意图）来实现。主要分为显示的和隐式的两种。
 
-###1)、隐式启动Activity
+### 1)、隐式启动Activity
 优点：
 
 只要知道被启动Activity的Action和Category即可，不用知道对应的类名或者是包名。
@@ -235,7 +235,7 @@ Dialog不会调用onPause()和onStop()， 非全屏Activity会调用onPause()不
     }
 ```
 
-###2)、显式的启动
+### 2)、显式的启动
 
 #### 2.1 、通过类名类启动Activity，一般是同一个APK里面使用
 
@@ -389,10 +389,10 @@ if (isValid) {
 ```
 
 ## 16. ANR的四种场景
-###1).什么是ANR
+### 1).什么是ANR
 在Android上，如果你的应用程序有一段时间响应不够灵敏，系统会向用户显示一个对话框，这个对话框称作应用程序无响应（ANR：Application Not Responding）对话框。用户可以选择让程序继续运行，但是，他们在使用你的应用程序时，并不希望每次都要处理这个对话框。因此，在程序里对响应性能的设计很重要，这样，系统不会显示ANR给用户。
 
-###2).ANR产生的原因
+### 2).ANR产生的原因
 ANR产生的根本原因是APP阻塞了UI线程。在android系统中每个App只有一个UI线程，是在App创建时默认生成的，UI线程默认初始化了一个消息循环来处理UI消息，ANR往往就是处理UI消息超时了。那么UI消息来源有哪些呢？主要有两种来源：
 
 #### 2.1 来自于AMS的回调消息
@@ -425,14 +425,14 @@ onPreExecute(), onProgressUpdate(), onPostExecute(), onCancel()等，超时5s
 Mainthread handler: 
 handleMessage(), post*(runnable r)等，超时5s
 ```
-###3).怎样避免ANR
+### 3).怎样避免ANR
 当我们知道ANR的产生原因之后，就可以较为轻松的避免ANR了。并且Android为我们提供了很多解决方法。主要归为一下几类。
 
 - UI线程尽量只做跟UI相关的工作，但一些复杂的UI操作，还是需要一些技巧来处理，不如你让一个Button去setText一个10M的文本，UI肯定崩掉了，不过对于此类问题，分段加载貌似是最好的方法了。
 - 让耗时的工作（比如数据库操作，I/O，连接网络或者别的有可能阻碍UI线程的操作）把它放入单独的线程处理。
 - 尽量用Handler来处理UIthread和别的thread之间的交互。
 
-###4).发布的程序怎样收集ANR异常
+### 4).发布的程序怎样收集ANR异常
 对于发布的程序，ANR异常是很那捕获不到的（我查找过很多资料，如果您有很好的捕获办法，欢迎再下方留言），所以我们需要采用其它的方法来分析ANR。app在产生ANR异常后，会将异常信息写入"/data/anr/traces.txt"文件我们可以通过收集用户的这个文件，就可以来获取用户产生ANR的地方了。
 
 
