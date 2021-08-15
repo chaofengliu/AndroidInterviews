@@ -91,14 +91,14 @@ standard是activity默认的启动模式，在不指定Activity启动模式的�
 ### 2).singleTop模式
 singleTop模式与standard类似，不同的是，当启动的activity已经位于栈顶时，则直接使用它不创建新的实例。如果启动的activity没有位于栈顶时，则创建一个新的实例位于栈顶。
 
-####使用场景
+#### 使用场景
 
 singleTop是和接收通知启动的内容显示页面。例如，某个新闻客户端的新闻内容页面，如果收到10个新闻推送，每次都打开一个新闻内容页面就不合理了。
 
 ### 3).singleTask模式
 如果希望Activity在整个应用程序中只存在一个实例，可以使用singleTask模式，当activity的启动模式指定为singleTask，每次启动该activity时，系统首先会检查栈中是否存在该activity的实例，如果存在，就直接使用该实例，并将当前activity之上的所有activity出栈，如果没有发现则创建一个新的实例。
 
-####使用场景
+#### 使用场景
 
 最常见的应用场景就是保持我们应用开启后仅仅有一个activity实例，最典型的样例就是应用中展示的主页（Home页）
 假设用户在主页跳转到其他页面，运行多次操作后想返回到主页，假设不使用singletask模式，在点击返回的过程中会多次看到主页，这明显就是设计不合理了。
@@ -112,7 +112,7 @@ singleInstance模式加载activity的时候，无论从哪个任务栈中启动�
 
 2)、如果要启动的activity已经存在，无论位于哪个应用程序或者哪个任务栈中，系统都会把该activity所在的任务栈转到前台，从而使该activity显示出来
 
-####使用场景
+#### 使用场景
 singleInstance适合需要与程序分离的页面，例如闹铃提醒，将闹铃提醒与闹铃设置分离，singleInstance不要用于中间页面，如果用于中间页面，跳转会有问题，比如;A->B(singleInstance)->C,完全退出后，再次启动，首先打开的是B
 
 
@@ -196,7 +196,7 @@ Dialog不会调用onPause()和onStop()， 非全屏Activity会调用onPause()不
 
 ![总结](https://github.com/chaofengliu/AndroidInterviews/blob/main/img/BA832041-DB2D-415F-B368-9B3E9AC1D318.png "汇总")
 
-####备注:
+#### 备注:
 为了让getIntent()方法获取到正确的Intent对象。在OnNewItent方法中需要调用setIntent(Intent intent)方法。
 
 ## 14. 显示启动和隐式启动
@@ -237,7 +237,7 @@ Dialog不会调用onPause()和onStop()， 非全屏Activity会调用onPause()不
 
 ###2)、显式的启动
 
-####2.1 、通过类名类启动Activity，一般是同一个APK里面使用
+#### 2.1 、通过类名类启动Activity，一般是同一个APK里面使用
 
 ```
     private void startSecondActivityByClass() {
@@ -251,7 +251,7 @@ Dialog不会调用onPause()和onStop()， 非全屏Activity会调用onPause()不
     }
 ```
 
-####2.2、 通过包名加类名启动
+#### 2.2、 通过包名加类名启动
 不足：被启动的应用的包名或者类名发生变化后，就会无法启动。
 
 ```
@@ -267,7 +267,7 @@ Dialog不会调用onPause()和onStop()， 非全屏Activity会调用onPause()不
     }
 ```
 
-####2.3 、通过ComponentName启动
+#### 2.3 、通过ComponentName启动
 不足：被启动的应用的包名或者类名发生变化后，就会无法启动。
 
 ```
@@ -308,7 +308,7 @@ xl://goods:8888/goodsDetail?goodsId=10011002
 
 ### 4）URL Scheme如何使用：
 
-####1）在AndroidManifest.xml中对标签增加设置Scheme
+#### 1）在AndroidManifest.xml中对标签增加设置Scheme
 
 ```
 <activity
@@ -332,7 +332,7 @@ xl://goods:8888/goodsDetail?goodsId=10011002
 </activity>
 ```
 
-####2）获取Scheme跳转的参数
+#### 2）获取Scheme跳转的参数
 
 ```
 Uri uri = getIntent().getData();
@@ -362,7 +362,7 @@ if (uri != null) {
 }
 ```
 
-####3）调用方式
+#### 3）调用方式
 - 网页上打开
 
 ```
@@ -376,7 +376,7 @@ Uri.parse("xl://goods:8888/goodsDetail?goodsId=10011002"));
 startActivity(intent);
 ```
 
-####4）如何判断一个Scheme是否有效
+#### 4）如何判断一个Scheme是否有效
 
 ```
 PackageManager packageManager = getPackageManager();
@@ -395,7 +395,7 @@ if (isValid) {
 ###2).ANR产生的原因
 ANR产生的根本原因是APP阻塞了UI线程。在android系统中每个App只有一个UI线程，是在App创建时默认生成的，UI线程默认初始化了一个消息循环来处理UI消息，ANR往往就是处理UI消息超时了。那么UI消息来源有哪些呢？主要有两种来源：
 
-####2.1 来自于AMS的回调消息
+#### 2.1 来自于AMS的回调消息
 在Android系统中，应用程序是有Android的四大组件组成，AMS负责对应用程序四大组件生命周期的管理，当AMS对应用程序组件的生命周期进行回调超过AMS定义的响应时间时，AMS就会报ANR。
 
 出现这种情况，一般是因为在这些组件的回调函数里面进行了耗时操作（如网络操作、SD卡文件操作、数据库操作、大量计算等），AMS对组件常见的回调函数及超时时间如下：
@@ -415,7 +415,7 @@ BroadcastReceiver：
 onReceiver()，前台APP广播超时时间是10s，后台App是60s
 ```
 
-####2.2 App自己的发出的消息
+#### 2.2 App自己的发出的消息
 除了AMS对四大组件的回调消息运行在UI线程外，有些操作也是运行在UI线程的：
 
 ```
