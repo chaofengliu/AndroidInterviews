@@ -256,11 +256,11 @@ loadFactor表示HashMap的拥挤程度，影响hash操作到同一个数组位�
 
 由于JDK版本中HashMap设计上存在差异，这里说说JDK7和JDK8中的区别：
 
-[对比](https://github.com/chaofengliu/AndroidInterviews/blob/main/img/70710b47dff9b7c924c718c3a4b59705ce4f293f.png%40942w_progressive.png)
+![对比](https://github.com/chaofengliu/AndroidInterviews/blob/main/img/70710b47dff9b7c924c718c3a4b59705ce4f293f.png%40942w_progressive.png)
 
 具体put流程，请参照下图进行回答：
 
-[流程](https://github.com/chaofengliu/AndroidInterviews/blob/main/img/b3927896b2cb11b327b3c18f8aff334ee7ac48f4.png%40942w_progressive.png)
+![流程](https://github.com/chaofengliu/AndroidInterviews/blob/main/img/b3927896b2cb11b327b3c18f8aff334ee7ac48f4.png%40942w_progressive.png)
 
 
 ## 12、当链表长度 >= 8时，为什么要将链表转换成红黑树？
