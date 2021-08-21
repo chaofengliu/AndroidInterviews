@@ -1,75 +1,271 @@
 # HashMap连环炮
 在面试中，HashMap基本必问，只是问法各有不同而已。因为使用HashMap就能考察面试者的很多知识点，所以需要大家熟练掌握。
 
-## 1、说说HashMap 底层数据结构是怎样的？
-HashMap 底层是 hash 数组和单向链表实现，jdk8后采用数组+链表+红黑树的数据结构。
+## 1、说说HashMap底层数据结构是怎样的？
+HashMap底层是hash数组和单向链表实现，JDK8后采用数组+链表+红黑树的数据结构。
 
-## 2、说说HashMap 的工作原理
+## 2、说说HashMap的工作原理
 如果第一题没问，直接问原理，那就必须把HashMap的数据结构说清楚。
 
-HashMap 底层是 hash 数组和单向链表实现，JDK8后采用数组+链表+红黑树的数据结构。
+HashMap底层是hash数组和单向链表实现，JDK8后采用数组+链表+红黑树的数据结构。
 
 我们通过put和get存储和获取对象。当我们给put()方法传递键和值时，先对键做一个hashCode()的计算来得到它在bucket数组中的位置来存储Entry对象。当获取对象时，通过get获取到bucket的位置，再通过键对象的equals()方法找到正确的键值对，然后在返回值对象。
 
-## 3、使用HashMap时，当两个对象的 hashCode 相同怎么办？
-因为HashCode 相同，不一定就是相等的（equals方法比较），所以两个对象所在数组的下标相同，"碰撞"就此发生。又因为 HashMap 使用链表存储对象，这个 Node 会存储到链表中。
+## 3、使用HashMap时，当两个对象的hashCode相同怎么办？
+因为HashCode 相同，不一定就是相等的（equals方法比较），所以两个对象所在数组的下标相同，"碰撞"就此发生。又因为HashMap使用链表存储对象，这个Node会存储到链表中。
 
-## 4、HashMap 的哈希函数怎么设计的吗？
-hash 函数是先拿到通过 key 的 hashCode ，是 32 位的 int 值，然后让 hashCode 的高 16 位和低 16 位进行异或操作。两个好处：
+## 4、HashMap的哈希函数怎么设计的吗？
 
-一定要尽可能降低 hash 碰撞，越分散越好；
+```
+static final int hash(Object key) {
+        int h;
+        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+}
+```
+hash 函数是先拿到通过key的hashCode ，是32位的int值，然后让hashCode的高16位和低 16位进行异或操作。
 
-算法一定要尽可能高效，因为这是高频操作, 因此采用位运算；
+两个好处：
+
+- 一定要尽可能降低hash碰撞，越分散越好；
+
+- 算法一定要尽可能高效，因为这是高频操作, 因此采用位运算；
 
 ## 5、HashMap遍历方法有几种？
-Iterator 迭代器
 
-最常见的使用方式，可同时得到 key、value 值
+HashMap遍历从大的方向来说，可分为以下4类：
 
-使用 foreach 方式（JDK1.8 才有）
+- 迭代器（Iterator）方式遍历；
+- For Each 方式遍历；
+- Lambda 表达式遍历（JDK 1.8+）;
+- Streams API 遍历（JDK 1.8+）。
 
-通过 key 的 set 集合遍历
+但每种类型下又有不同的实现方式，因此具体的遍历方式又可以分为以下7种：
 
-## 6、为什么采用 hashcode 的高 16 位和低 16 位异或能降低 hash 碰撞？
-因为 key.hashCode()函数调用的是 key 键值类型自带的哈希函数，返回 int 型散列值。int 值范围为**-2147483648~2147483647**，前后加起来大概 40 亿的映射空间。只要哈希函数映射得比较均匀松散，一般应用是很难出现碰撞的。但问题是一个 40 亿长度的数组，内存是放不下的。
+- 使用迭代器（Iterator）EntrySet 的方式进行遍历；
+- 使用迭代器（Iterator）KeySet 的方式进行遍历；
+- 使用 For Each EntrySet 的方式进行遍历；
+- 使用 For Each KeySet 的方式进行遍历；
+- 使用 Lambda 表达式的方式进行遍历；
+- 使用 Streams API 单线程的方式进行遍历；
+- 使用 Streams API 多线程的方式进行遍历。
 
-设想，如果 HashMap 数组的初始大小才 16，用之前需要对数组的长度取模运算，得到的余数才能用来访问数组下标。
+
+1.迭代器 EntrySet
+
+```
+public class HashMapTest {
+    public static void main(String[] args) {
+        // 创建并赋值 HashMap
+        Map<Integer, String> map = new HashMap();
+        map.put(1, "Java");
+        map.put(2, "JDK");
+        map.put(3, "Spring Framework");
+        map.put(4, "MyBatis framework");
+        map.put(5, "Java中文");
+        // 遍历
+        Iterator<Map.Entry<Integer, String>> iterator = map.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<Integer, String> entry = iterator.next();
+            System.out.print(entry.getKey());
+            System.out.print(entry.getValue());
+        }
+    }
+}
+```
+ 
+
+2.迭代器 KeySet
+
+```
+public class HashMapTest {
+    public static void main(String[] args) {
+        // 创建并赋值 HashMap
+        Map<Integer, String> map = new HashMap();
+        map.put(1, "Java");
+        map.put(2, "JDK");
+        map.put(3, "Spring Framework");
+        map.put(4, "MyBatis framework");
+        map.put(5, "Java中文");
+        // 遍历
+        Iterator<Integer> iterator = map.keySet().iterator();
+        while (iterator.hasNext()) {
+            Integer key = iterator.next();
+            System.out.print(key);
+            System.out.print(map.get(key));
+        }
+    }
+}
+```
+
+3.ForEach EntrySet
+
+```
+public class HashMapTest {
+    public static void main(String[] args) {
+        // 创建并赋值 HashMap
+        Map<Integer, String> map = new HashMap();
+        map.put(1, "Java");
+        map.put(2, "JDK");
+        map.put(3, "Spring Framework");
+        map.put(4, "MyBatis framework");
+        map.put(5, "Java中文");
+        // 遍历
+        for (Map.Entry<Integer, String> entry : map.entrySet()) {
+            System.out.print(entry.getKey());
+            System.out.print(entry.getValue());
+        }
+    }
+}
+```
+
+4.ForEach KeySet
+
+```
+public class HashMapTest {
+    public static void main(String[] args) {
+        // 创建并赋值 HashMap
+        Map<Integer, String> map = new HashMap();
+        map.put(1, "Java");
+        map.put(2, "JDK");
+        map.put(3, "Spring Framework");
+        map.put(4, "MyBatis framework");
+        map.put(5, "Java中文");
+        // 遍历
+        for (Integer key : map.keySet()) {
+            System.out.print(key);
+            System.out.print(map.get(key));
+        }
+    }
+}
+```
+
+5.Lambda
+
+```
+public class HashMapTest {
+    public static void main(String[] args) {
+        // 创建并赋值 HashMap
+        Map<Integer, String> map = new HashMap();
+        map.put(1, "Java");
+        map.put(2, "JDK");
+        map.put(3, "Spring Framework");
+        map.put(4, "MyBatis framework");
+        map.put(5, "Java中文社群");
+        // 遍历
+        map.forEach((key, value) -> {
+            System.out.print(key);
+            System.out.print(value);
+        });
+    }
+}
+```
+
+6.Streams API 单线程
+
+```
+public class HashMapTest {
+    public static void main(String[] args) {
+        // 创建并赋值 HashMap
+        Map<Integer, String> map = new HashMap();
+        map.put(1, "Java");
+        map.put(2, "JDK");
+        map.put(3, "Spring Framework");
+        map.put(4, "MyBatis framework");
+        map.put(5, "Java中文");
+        // 遍历
+        map.entrySet().stream().forEach((entry) -> {
+            System.out.print(entry.getKey());
+            System.out.print(entry.getValue());
+        });
+    }
+}
+```
+
+7.Streams API 多线程
+
+```
+public class HashMapTest {
+    public static void main(String[] args) {
+        // 创建并赋值 HashMap
+        Map<Integer, String> map = new HashMap();
+        map.put(1, "Java");
+        map.put(2, "JDK");
+        map.put(3, "Spring Framework");
+        map.put(4, "MyBatis framework");
+        map.put(5, "Java中文");
+        // 遍历
+        map.entrySet().parallelStream().forEach((entry) -> {
+            System.out.print(entry.getKey());
+            System.out.print(entry.getValue());
+        });
+    }
+}
+```
+
+ 
+## 6、为什么采用hashcode的高16位和低16位异或能降低hash碰撞？
+因为 key.hashCode()函数调用的是key键值类型自带的哈希函数，返回int型散列值。int值范围为**-2147483648~2147483647**，前后加起来大概 40 亿的映射空间。只要哈希函数映射得比较均匀松散，一般应用是很难出现碰撞的。但问题是一个 40 亿长度的数组，内存是放不下的。
+
+HashMap 数组的初始大小才16，用之前需要对数组的长度取模运算，得到的余数才能用来访问数组下标。
+
+当数组的长度很短时，只有低位数的hashcode值能参与运算。而让高16位参与运算可以更好的均匀散列，减少碰撞，进一步降低hash冲突的几率。并且使得高16位和低16位的信息都被保留了。
+
+而在这里采用异或运算而不采用&或|运算的原因是异或运算能更好的保留各部分的特征，如果采用&运算计算出来的值的二进制会向1靠拢，采用|运算计算出来的值的二进制会向0靠拢
+
+因为int是4个字节，所以右移16位。查看hashmap的源码，找到hash方法，按住ctrl点击方法里的hashcode，跳转到Object类，发现hashcode的数据类型是int。int为4个字节，1个字节8个比特位，就是32个比特位，所以16很可能是因为32对半的结果，也就是让高的那一半也来参与运算所以选择了16。
 
 ## 7、解决hash冲突的有几种方法？
+
 1、再哈希法：如果hash出的index已经有值，就再hash，不行继续hash，直至找到空的index位置，要相信瞎猫总能碰上死耗子。这个办法最容易想到。但有2个缺点：
 
 比较浪费空间，消耗效率。根本原因还是数组的长度是固定不变的，不断hash找出空的index，可能越界，这时就要创建新数组，而老数组的数据也需要迁移。随着数组越来越大，消耗不可小觑。
 
 get不到，或者说get算法复杂。进是进去了，想出来就没那么容易了。
 
-2、开放地址方法：如果hash出的index已经有值，通过算法在它前面或后面的若干位置寻找空位，这个和再hash算法差别不大。3、建立公共溢出区： 把冲突的hash值放到另外一块溢出区。4、链式地址法： 把产生hash冲突的hash值以链表形式存储在index位置上。HashMap用的就是该方法。优点是不需要另外开辟新空间，也不会丢失数据，寻址也比较简单。但是随着hash链越来越长，寻址也是更加耗时。好的hash算法就是要让链尽量短，最好一个index上只有一个值。也就是尽可能地保证散列地址分布均匀，同时要计算简单。
+2、开放地址方法：如果hash出的index已经有值，通过算法在它前面或后面的若干位置寻找空位，这个和再hash算法差别不大。
+
+3、建立公共溢出区： 把冲突的hash值放到另外一块溢出区。
+
+4、链式地址法： 把产生hash冲突的hash值以链表形式存储在index位置上。HashMap用的就是该方法。优点是不需要另外开辟新空间，也不会丢失数据，寻址也比较简单。但是随着hash链越来越长，寻址也是更加耗时。好的hash算法就是要让链尽量短，最好一个index上只有一个值。也就是尽可能地保证散列地址分布均匀，同时要计算简单。
 
 ## 8、为什么要用异或运算符？
-保证了对象的 hashCode 的 32 位值只要有一位发生改变，整个 hash() 返回值就会改变。尽可能的减少碰撞。
 
-## 9、HashMap 的 table 的容量如何确定？
-①、table 数组大小是由 capacity 这个参数确定的，默认是16，也可以构造时传入，最大限制是1<<30；
+首先将高16位无符号右移16位与低16位做异或运算。如果不这样做，而是直接做&运算那么高16位所代表的部分特征就可能被丢失，将高16位无符号右移之后与低16位做异或运算使得高16位的特征与低16位的特征进行了混合得到的新的数值中就高位与低位的信息都被保留了。
 
-②、loadFactor 是装载因子，主要目的是用来确认table 数组是否需要动态扩展，默认值是0.75，比如table 数组大小为 16，装载因子为 0.75 时，threshold 就是12，当 table 的实际大小超过 12 时，table就需要动态扩容；
+而在这里采用异或运算而不采用&或|运算的原因是异或运算能更好的保留各部分的特征，保证了对象的hashCode的32位值只要有一位发生改变，整个hash()返回值就会改变，同时尽可能的减少碰撞。如果采用&运算计算出来的值会向1靠拢，采用|运算计算出来的值会向0靠拢
 
-③、扩容时，调用 resize() 方法，将 table 长度变为原来的两倍（注意是 table 长度，而不是 threshold）；
+
+## 9、HashMap的table的容量如何确定？
+①、table数组大小是由capacity这个参数确定的，默认是16，也可以构造时传入，最大限制是1<<30；
+
+②、loadFactor是装载因子，主要目的是用来确认table数组是否需要动态扩展，默认值是0.75，比如table数组大小为16，装载因子为0.75时，threshold就是12，当table的实际大小超过 12 时，table就需要动态扩容；
+
+③、扩容时，调用resize()方法，将table长度变为原来的两倍（注意是table长度，而不是 threshold）；
 
 ④、如果数据很大的情况下，扩展时将会带来性能的损失，在性能要求很高的地方，这种损失很可能很致命。
 
 ## 10、请解释一下HashMap的参数loadFactor，它的作用是什么
+
 loadFactor表示HashMap的拥挤程度，影响hash操作到同一个数组位置的概率。
 
 默认loadFactor等于0.75，当HashMap里面容纳的元素已经达到HashMap数组长度的75%时，表示HashMap太挤了，需要扩容，在HashMap的构造器中可以定制loadFactor。
 
+至于为什么是0.75，节点出现的频率在hash桶中遵循泊松分布，当桶中元素到达8个的时候，概率已经变得非常小，也就是说用0.75作为加载因子，每个碰撞位置的链表长度超过８个是几乎不可能的。
+
 ## 11、说说HashMap中put方法的过程
+
 由于JDK版本中HashMap设计上存在差异，这里说说JDK7和JDK8中的区别：
 
+[对比](https://github.com/chaofengliu/AndroidInterviews/blob/main/img/70710b47dff9b7c924c718c3a4b59705ce4f293f.png%40942w_progressive.png)
 
 具体put流程，请参照下图进行回答：
 
+[流程](https://github.com/chaofengliu/AndroidInterviews/blob/main/img/b3927896b2cb11b327b3c18f8aff334ee7ac48f4.png%40942w_progressive.png)
+
 
 ## 12、当链表长度 >= 8时，为什么要将链表转换成红黑树？
-因为红黑树的平均查找长度是log(n)，长度为8的时候，平均查找长度为3，如果继续使用链表，平均查找长度为8/2=4，所以，当链表长度 >= 8时 ，有必要将链表转换成红黑树。
+
+因为红黑树的平均查找长度是log(n)，长度为8的时候，平均查找长度为3，如果继续使用链表，平均查找长度为8/2=4，所以，当链表长度>=8时 ，有必要将链表转换成红黑树。
 
 ## 13、new HashMap(18);此时HashMap初始容量为多少？
 容量为32。
